@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ---- Design tokens -------------------------------------------------- */
+/* Light is the base. Dark is a selected set of steps, not an auto-flip.  */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --surface-0: #f7f6f2;  /* page ground  */
+  --surface-1: #fcfcfb;  /* cards, chart surface */
+  --surface-2: #eeece5;  /* wells, muted fills */
+  --line:      #dedbd1;
+  --line-soft: #e8e6de;
+
+  --text-primary:   #14140f;
+  --text-secondary: #52514e;
+  --text-muted:     #7d7b73;
+
+  --accent:      #2a78d6;
+  --accent-soft: #cde2fb;
+  --accent-ink:  #184f95;
+
+  --map-fill:  #e4e1d8;
+  --map-hover: #d5d1c4;
+
+  /* Four Fields ordinal ramp (validated: one hue, monotone L, light end 2.06:1) */
+  --field-0:     #e4e1d8;
+  --field-0-ink: #52514e;
+  --field-1:     #86b6ef;
+  --field-1-ink: #14140f;
+  --field-2:     #3987e5;
+  --field-2-ink: #ffffff;
+  --field-3:     #184f95;
+  --field-3-ink: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --surface-0: #121211;
+    --surface-1: #1a1a19;
+    --surface-2: #232321;
+    --line:      #33332f;
+    --line-soft: #262623;
+
+    --text-primary:   #f5f4ef;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #8f8e84;
+
+    --accent:      #3987e5;
+    --accent-soft: #184f95;
+    --accent-ink:  #9ec5f4;
+
+    --map-fill:  #2b2b28;
+    --map-hover: #3a3a35;
+
+    /* Dark steps are selected for the dark surface, not flipped */
+    --field-0:     #2b2b28;
+    --field-0-ink: #c3c2b7;
+    --field-1:     #1c5cab;
+    --field-1-ink: #ffffff;
+    --field-2:     #3987e5;
+    --field-2-ink: #ffffff;
+    --field-3:     #9ec5f4;
+    --field-3-ink: #0b0b0b;
   }
 }
 
+@theme inline {
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink: var(--text-primary);
+  --color-ink-2: var(--text-secondary);
+  --color-ink-3: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-display);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface-0);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
