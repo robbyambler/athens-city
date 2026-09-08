@@ -6,6 +6,7 @@ import {
   geography,
   growthMath,
   metroStats,
+  needStats,
   peoples,
   saturation,
   settlement,
@@ -74,6 +75,23 @@ export default function HarvestField() {
         ))}
       </div>
 
+      {/* The need, in four sourced numbers */}
+      <div className="rounded-2xl border border-line bg-surface-1 p-6 sm:p-8">
+        <h3 className="font-display text-2xl">The need, in four numbers</h3>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-3">
+          Not the size of the city — the size of the gap inside it.
+        </p>
+        <dl className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {needStats.map((s) => (
+            <div key={s.label}>
+              <dd className="font-display text-4xl leading-none">{s.value}</dd>
+              <dt className="mt-3 text-sm font-medium text-ink">{s.label}</dt>
+              <dd className="mt-1 text-xs text-ink-3">{s.note}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
       {/* The gap to Phase 7 */}
       <div className="rounded-2xl border border-line bg-surface-1 p-6 sm:p-8">
         <h3 className="font-display text-2xl">The distance to Phase 7</h3>
@@ -111,8 +129,10 @@ export default function HarvestField() {
         </div>
       </div>
 
-      {/* Addition vs multiplication — a table, because the numbers are the point */}
-      <div className="rounded-2xl border border-line bg-surface-1 p-6 sm:p-8">
+      {/* Addition vs multiplication — a table, because the numbers are the point.
+          `min-w-0` keeps the wide table inside its own scroller instead of
+          stretching this flex item and scrolling the whole page. */}
+      <div className="min-w-0 rounded-2xl border border-line bg-surface-1 p-6 sm:p-8">
         <h3 className="font-display text-2xl">Addition will not get there</h3>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-3">
           Ten groups. On the left, ten more added every year. On the right, each group reproducing
@@ -182,7 +202,7 @@ export default function HarvestField() {
       </div>
 
       {/* Peoples table */}
-      <div className="rounded-2xl border border-line bg-surface-1 p-6 sm:p-8">
+      <div className="min-w-0 rounded-2xl border border-line bg-surface-1 p-6 sm:p-8">
         <h3 className="font-display text-2xl">The peoples of Athens</h3>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-ink-3">
           Athens is one of the few cities in Europe where a dozen unreached peoples live within four

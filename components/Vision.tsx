@@ -91,8 +91,8 @@ export default function Vision() {
             </p>
             <p className="mt-6 text-sm leading-relaxed text-ink-3">
               Seven districts. Sixty-six municipalities. A dozen unreached peoples living four
-              metro stops apart. Multiplying disciples, churches, leaders and movements until every
-              person in Attica has a follower of Jesus within reach of their own kitchen table.
+              metro stops apart. Multiplying disciples, churches and leaders until every person in
+              Attica has a follower of Jesus within reach of their own kitchen table.
             </p>
             <p className="mt-6 border-t border-line-soft pt-6 text-sm text-ink-2">
               &ldquo;But now, since I no longer have any room for work in these regions&hellip;&rdquo;

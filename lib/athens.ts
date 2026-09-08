@@ -7,9 +7,12 @@
 //      country profile for Greece (joshuaproject.net/countries/GR);
 //      Athens Social Atlas for neighbourhood composition.
 //
-//  (B) PLANNING TEMPLATE. Every `field`, `phase`, `entry` and `prayer` value
+//  (B) PLANNING TEMPLATE. Every `stage`, `phase`, `entry` and `prayer` value
 //      below is a PLACEHOLDER for a real team's field survey. It is a starting
 //      shape, not a report. Replace it with what your team actually observes.
+//
+//  District boundary geometry lives in lib/districtBoundaries.ts and is real
+//  OpenStreetMap data, not a placeholder.
 
 export type District = {
   id: number;
@@ -18,17 +21,19 @@ export type District = {
   approxPopulation: number;
   neighborhoods: string[];
   // (B) planning template
-  field: 0 | 1 | 2 | 3; // index into fourFields
+  stage: 0 | 1 | 2 | 3 | 4; // index into cmt
   phase: number; // 1-7, see sevenPhases
   peoples: string[];
   gateway: string;
   entry: string;
   prayer: string;
-  // map geometry
-  points: string;
-  labelX: number;
-  labelY: number;
 };
+
+// (A) The Ancient Agora, where Paul reasoned daily — Acts 17:17.
+export const agora = { lat: 37.9749, lng: 23.7225, label: "AGORA" };
+
+// The Municipality of Athens, for the map's opening view.
+export const athensCentre = { lat: 37.9838, lng: 23.7275, zoom: 13 };
 
 export const districts: District[] = [
   {
@@ -37,7 +42,7 @@ export const districts: District[] = [
     greek: "1η Δημοτική Κοινότητα",
     approxPopulation: 75800,
     neighborhoods: ["Omonia", "Gerani", "Psyri", "Monastiraki", "Plaka", "Exarcheia", "Syntagma", "Koukaki"],
-    field: 1,
+    stage: 0,
     phase: 2,
     peoples: ["Greek", "Pakistani", "Bangladeshi", "Chinese", "Syrian & Egyptian Arab", "Kurdish"],
     gateway: "Omonia & Gerani — ethnic commerce block by block; Monastiraki and the Ancient Agora.",
@@ -45,9 +50,6 @@ export const districts: District[] = [
       "Paul reasoned in this marketplace day by day (Acts 17:17). Daily gospel conversations in the agora, plus student and traveller networks around Syntagma and Exarcheia.",
     prayer:
       "For bold, ordinary conversations in the busiest square in Greece — and for the first Pakistani and Bangladeshi households to open.",
-    points: "256,222 372,232 386,318 330,368 258,352 240,282",
-    labelX: 306,
-    labelY: 292,
   },
   {
     id: 2,
@@ -55,7 +57,7 @@ export const districts: District[] = [
     greek: "2η Δημοτική Κοινότητα",
     approxPopulation: 92500,
     neighborhoods: ["Pangrati", "Mets", "Neos Kosmos", "Ilisia", "Dourgouti"],
-    field: 0,
+    stage: 0,
     phase: 1,
     peoples: ["Greek", "Filipino", "Georgian", "Albanian"],
     gateway: "Neos Kosmos accommodation sites; Panteion and university housing in Ilisia.",
@@ -63,9 +65,6 @@ export const districts: District[] = [
       "Students and young professionals. Filipino and Georgian domestic workers gather on Sundays — an existing believing community that could be trained as trainers.",
     prayer:
       "For a team to adopt this district. Nobody has taken ownership of it yet.",
-    points: "252,384 388,378 408,462 348,534 254,528 224,452",
-    labelX: 314,
-    labelY: 454,
   },
   {
     id: 3,
@@ -73,7 +72,7 @@ export const districts: District[] = [
     greek: "3η Δημοτική Κοινότητα",
     approxPopulation: 65200,
     neighborhoods: ["Petralona", "Votanikos", "Gazi", "Kerameikos", "Rouf"],
-    field: 0,
+    stage: 0,
     phase: 1,
     peoples: ["Albanian", "Bangladeshi", "Roma", "Pakistani"],
     gateway: "Votanikos markets and day-labour corners; the Gazi nightlife strip after dark.",
@@ -81,9 +80,6 @@ export const districts: District[] = [
       "Work sites and markets before dawn. Roma settlements on the western edge are among the least-engaged communities in the city.",
     prayer:
       "For labourers who leave before sunrise and return after dark to hear something worth staying awake for.",
-    points: "78,232 214,224 236,300 214,382 118,390 68,318",
-    labelX: 150,
-    labelY: 306,
   },
   {
     id: 4,
@@ -91,7 +87,7 @@ export const districts: District[] = [
     greek: "4η Δημοτική Κοινότητα",
     approxPopulation: 85400,
     neighborhoods: ["Kolonos", "Sepolia", "Akadimia Platonos", "Kato Patisia"],
-    field: 1,
+    stage: 1,
     phase: 2,
     peoples: ["Albanian", "Roma", "Pakistani", "Afghan"],
     gateway: "Sepolia metro and street markets; the Plato's Academy park.",
@@ -99,9 +95,6 @@ export const districts: District[] = [
       "Sowing broadly at the metro interchange and the weekly laiki. Albanian believers already in the city are the natural first trainers here.",
     prayer:
       "That the olive grove where Plato taught becomes a place where the risen Christ is discussed instead.",
-    points: "104,96 236,68 296,120 288,192 210,214 122,186",
-    labelX: 196,
-    labelY: 140,
   },
   {
     id: 5,
@@ -109,7 +102,7 @@ export const districts: District[] = [
     greek: "5η Δημοτική Κοινότητα",
     approxPopulation: 98300,
     neighborhoods: ["Patisia", "Agios Panteleimonas", "Rizoupoli", "Ano Patisia"],
-    field: 1,
+    stage: 0,
     phase: 2,
     peoples: ["Afghan (Dari, Hazara, Pashtun)", "Pakistani", "Bangladeshi", "Syrian"],
     gateway: "Agios Panteleimonas square, the Patision axis, Acharnon Street.",
@@ -117,9 +110,6 @@ export const districts: District[] = [
       "The most frontier ground in the city. Afghans in Greece are rated Progress Scale 0 — unreached and frontier. Dari-speaking believers and Persian-language media are the open door.",
     prayer:
       "For Afghan households in this district — a people with almost no church anywhere — and for workers willing to learn Dari.",
-    points: "318,62 452,74 470,150 400,192 330,166",
-    labelX: 392,
-    labelY: 124,
   },
   {
     id: 6,
@@ -127,7 +117,7 @@ export const districts: District[] = [
     greek: "6η Δημοτική Κοινότητα",
     approxPopulation: 129600,
     neighborhoods: ["Kypseli", "Amerikis Square", "Fokionos Negri", "Gyzi", "Neapoli"],
-    field: 3,
+    stage: 3,
     phase: 4,
     peoples: ["Nigerian", "Ghanaian", "Congolese", "Somali", "Ethiopian & Eritrean", "Syrian", "Greek"],
     gateway: "Amerikis Square and Fokionos Negri — the centre of African Athens.",
@@ -135,9 +125,6 @@ export const districts: District[] = [
       "The furthest-along district, because the church is already here. African-led congregations meet across Kypseli. The work is not planting from scratch; it is helping existing churches multiply to a fourth generation.",
     prayer:
       "That the African church in Athens sees itself as a sending church — to Greeks, to Somalis, and back home.",
-    points: "418,208 552,222 566,314 470,340 400,296 396,232",
-    labelX: 482,
-    labelY: 274,
   },
   {
     id: 7,
@@ -145,7 +132,7 @@ export const districts: District[] = [
     greek: "7η Δημοτική Κοινότητα",
     approxPopulation: 117200,
     neighborhoods: ["Ampelokipoi", "Panormou", "Goudi", "Ellinorosson"],
-    field: 0,
+    stage: 0,
     phase: 1,
     peoples: ["Greek", "Filipino", "Georgian", "Ukrainian"],
     gateway: "The Goudi hospital complex, office corridors along Kifisias, the university campus.",
@@ -153,9 +140,6 @@ export const districts: District[] = [
       "Professional Greek Athens — the hardest ground in the city precisely because it looks the most reached. Workplace oikos mapping rather than street work.",
     prayer:
       "For Greeks who have Christ's name and not his life, in the district least likely to think it needs anything.",
-    points: "470,356 578,346 596,438 552,504 452,494 414,414",
-    labelX: 502,
-    labelY: 424,
   },
 ];
 

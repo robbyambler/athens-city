@@ -1,10 +1,10 @@
+import CMT from "@/components/CMT";
 import DistrictMap from "@/components/DistrictMap";
-import FourFields from "@/components/FourFields";
 import GenerationMap from "@/components/GenerationMap";
 import HarvestField from "@/components/HarvestField";
+import PhaseLadder from "@/components/PhaseLadder";
 import PhaseScale from "@/components/PhaseScale";
 import Vision from "@/components/Vision";
-import { needStats } from "@/lib/athens";
 import { npl } from "@/lib/npl";
 
 function SectionHeader({
@@ -35,17 +35,17 @@ export default function Home() {
             <span className="text-sm text-ink-3">Athens · Αθήνα</span>
           </span>
           <ul className="hidden gap-6 text-sm text-ink-2 sm:flex">
-            <li><a className="hover:text-ink" href="#framework">Framework</a></li>
+            <li><a className="hover:text-ink" href="#vision">Vision</a></li>
+            <li><a className="hover:text-ink" href="#framework">The CMT</a></li>
             <li><a className="hover:text-ink" href="#districts">Districts</a></li>
             <li><a className="hover:text-ink" href="#progress">Progress</a></li>
             <li><a className="hover:text-ink" href="#harvest">Harvest</a></li>
-            <li><a className="hover:text-ink" href="#vision">Vision</a></li>
           </ul>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 pb-20 pt-20 sm:pt-28">
+      <section className="mx-auto max-w-6xl px-6 pb-20 pt-20 sm:pb-24 sm:pt-28">
         <p className="text-xs uppercase tracking-[0.18em] text-ink-3">
           A church planting strategy · Attica, Greece
         </p>
@@ -56,51 +56,50 @@ export default function Home() {
           {npl.mission} This is the city we are starting with: seven districts, 3.8 million people,
           and a dozen unreached peoples living four metro stops from each other.
         </p>
+      </section>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-          {needStats.map((s) => (
-            <div key={s.label} className="bg-surface-1 p-6">
-              <p className="font-display text-4xl leading-none">{s.value}</p>
-              <p className="mt-3 text-sm font-medium text-ink">{s.label}</p>
-              <p className="mt-1 text-xs text-ink-3">{s.note}</p>
-            </div>
-          ))}
+      {/* Vision */}
+      <section id="vision" className="border-t border-line bg-surface-0 py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <p className="mb-10 text-xs uppercase tracking-[0.18em] text-ink-3">01 — The vision</p>
+          <Vision />
         </div>
       </section>
 
-      {/* Framework */}
-      <section id="framework" className="border-t border-line bg-surface-0 py-20 sm:py-24">
+      {/* Framework — the CMT */}
+      <section id="framework" className="border-t border-line py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeader
-            eyebrow="01 — The framework"
-            title="Four Fields"
-            lede="Everything below runs on one diagram. Mark 4 gives four fields and a centre: get in, sow, grow, gather — and raise leaders in the middle of all of it. It is drawable on a napkin, which is the point."
+            eyebrow="02 — The framework"
+            title="The CMT"
+            lede="Everything below runs on one line. Evangelism, then discipleship, then church planting, then leader development — and then multiplication, which is not a fifth item on a list but the reason the other four exist. Every stage carries tools an ordinary believer can learn on Tuesday and use on Wednesday. It is drawable on a napkin, which is the point."
           />
-          <FourFields />
+          <CMT />
         </div>
       </section>
 
       {/* Districts */}
-      <section id="districts" className="border-t border-line py-20 sm:py-24">
+      <section id="districts" className="border-t border-line bg-surface-0 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeader
-            eyebrow="02 — The ground"
+            eyebrow="03 — The ground"
             title="Seven districts, surveyed"
-            lede="The municipality of Athens divides into seven dimotikes koinotites. Each is shaded by the field it is currently in. Select one for who lives there, where the way in is, and what to pray."
+            lede="The municipality of Athens divides into seven dimotikes koinotites. Each real boundary is shaded by the CMT stage the work is currently in. Select one for who lives there, where the way in is, and what to pray."
           />
           <DistrictMap />
         </div>
       </section>
 
       {/* Progress */}
-      <section id="progress" className="border-t border-line bg-surface-0 py-20 sm:py-24">
+      <section id="progress" className="border-t border-line py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeader
-            eyebrow="03 — The scoreboard"
+            eyebrow="04 — The scoreboard"
             title="Seven phases of progress"
             lede="NPL measures a people or place on a seven-phase scale. It is a scoreboard, not a mood — you either have fourth-generation churches or you do not."
           />
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+          <PhaseLadder />
+          <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:gap-12">
             <PhaseScale />
             <GenerationMap />
           </div>
@@ -108,10 +107,10 @@ export default function Home() {
       </section>
 
       {/* Harvest */}
-      <section id="harvest" className="border-t border-line py-20 sm:py-24">
+      <section id="harvest" className="border-t border-line bg-surface-0 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeader
-            eyebrow="04 — The harvest field"
+            eyebrow="05 — The harvest field"
             title="Athens by the numbers"
             lede="Who actually lives in this basin, and how far it is from here to a sustained gospel presence. Census figures where they exist; honest gaps where they do not."
           />
@@ -119,35 +118,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Vision */}
-      <section id="vision" className="border-t border-line bg-surface-0 py-20 sm:py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <p className="mb-10 text-xs uppercase tracking-[0.18em] text-ink-3">05 — The vision</p>
-          <Vision />
-        </div>
-      </section>
-
       <footer className="border-t border-line py-12">
         <div className="mx-auto max-w-6xl px-6 text-sm text-ink-3">
           <div className="grid gap-8 sm:grid-cols-2">
             <p className="leading-relaxed">
-              <strong className="font-medium text-ink-2">Framework.</strong> Four Fields of Kingdom
-              Growth, the 7 Phases of Progress, and the tool names used here follow the NoPlaceLeft
-              International Coalition (noplaceleft.net). Scripture anchor: {npl.scripture}.
+              <strong className="font-medium text-ink-2">Framework.</strong> The tool names used
+              here, the MAWL pattern, the Mark 4 field language and the 7 Phases of Progress all
+              come from the NoPlaceLeft International Coalition (noplaceleft.net). Arranging them
+              as a five-stage CMT line is this site&rsquo;s own way of presenting them, not an
+              NPL-branded diagram. Scripture anchor: {npl.scripture}.
             </p>
             <p className="leading-relaxed">
               <strong className="font-medium text-ink-2">Data.</strong> Population, age and
               household figures: ELSTAT, 2021 Census of Population and Housing. People group,
               evangelical and progress-scale figures: Joshua Project, Greece profile. Neighbourhood
-              composition: Athens Social Atlas.
+              composition: Athens Social Atlas. District boundaries and base map:{" "}
+              <a
+                className="underline decoration-line underline-offset-2 hover:text-ink-2"
+                href="https://www.openstreetmap.org/copyright"
+              >
+                OpenStreetMap
+              </a>{" "}
+              contributors, ODbL.
             </p>
           </div>
           <p className="mt-8 max-w-3xl leading-relaxed">
-            <strong className="font-medium text-ink-2">What is a placeholder.</strong> Every field
-            status, phase, gateway and prayer point on the district map is a planning template, not
-            a field report. Replace it with your own survey before anyone makes a decision on it.
-            District populations are approximations from the 2011 census breakdown. The map is
-            schematic and not to scale.
+            <strong className="font-medium text-ink-2">What is a placeholder.</strong> Every stage,
+            phase, gateway and prayer point on the district map is a planning template, not a field
+            report. Replace it with your own survey before anyone makes a decision on it. District
+            populations are approximations from the 2011 census breakdown. The boundaries
+            themselves are real — OpenStreetMap administrative geometry, simplified for file size —
+            but nothing painted on top of them is.
           </p>
         </div>
       </footer>

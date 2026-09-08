@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Leaflet's own stylesheet is imported here, not in the map component, so it
+   always lands BEFORE the `.leaflet-*` overrides further down this file. When
+   the component imported it, it arrived in a lazily-loaded chunk after this
+   file and won every same-specificity fight. */
+@import "leaflet/dist/leaflet.css";
+
 /* ---- Design tokens -------------------------------------------------- */
 /* Light is the base. Dark is a selected set of steps, not an auto-flip.  */
 
@@ -21,15 +27,20 @@
   --map-fill:  #e4e1d8;
   --map-hover: #d5d1c4;
 
-  /* Four Fields ordinal ramp (validated: one hue, monotone L, light end 2.06:1) */
-  --field-0:     #e4e1d8;
-  --field-0-ink: #52514e;
-  --field-1:     #86b6ef;
+  /* CMT ordinal ramp — five stages, Evangelism → Multiply.
+     One hue (blue, spread 4°), monotone lightness, adjacent ΔL ≥ 0.06,
+     light end 2.06:1 on the card surface. Every -ink pair clears 4.5:1
+     on its own fill, so the tokens are safe for small text as well as fills. */
+  --field-0:     #86b6ef;  /* Evangelism        — ink 8.75:1 */
+  --field-0-ink: #14140f;
+  --field-1:     #5598e7;  /* Discipleship      — ink 6.19:1 */
   --field-1-ink: #14140f;
-  --field-2:     #3987e5;
+  --field-2:     #256abf;  /* Church Planting   — ink 5.39:1 */
   --field-2-ink: #ffffff;
-  --field-3:     #184f95;
+  --field-3:     #184f95;  /* Leader Development— ink 8.10:1 */
   --field-3-ink: #ffffff;
+  --field-4:     #0d366b;  /* Multiply          — ink 11.95:1 */
+  --field-4-ink: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,15 +62,19 @@
     --map-fill:  #2b2b28;
     --map-hover: #3a3a35;
 
-    /* Dark steps are selected for the dark surface, not flipped */
-    --field-0:     #2b2b28;
-    --field-0-ink: #c3c2b7;
-    --field-1:     #1c5cab;
+    /* Dark steps are selected for the dark surface, not flipped.
+       Same one-hue ramp run the other way: dark end 2.15:1 on the dark
+       card surface, adjacent ΔL ≥ 0.06, every -ink pair ≥ 4.5:1. */
+    --field-0:     #184f95;  /* Evangelism        — ink 8.10:1  */
+    --field-0-ink: #ffffff;
+    --field-1:     #256abf;  /* Discipleship      — ink 5.39:1  */
     --field-1-ink: #ffffff;
-    --field-2:     #3987e5;
-    --field-2-ink: #ffffff;
-    --field-3:     #9ec5f4;
+    --field-2:     #3987e5;  /* Church Planting   — ink 5.41:1  */
+    --field-2-ink: #0b0b0b;
+    --field-3:     #6da7ec;  /* Leader Development— ink 7.86:1  */
     --field-3-ink: #0b0b0b;
+    --field-4:     #9ec5f4;  /* Multiply          — ink 11.01:1 */
+    --field-4-ink: #0b0b0b;
   }
 }
 
@@ -89,6 +104,111 @@ body {
 ::selection {
   background: var(--accent-soft);
   color: var(--text-primary);
+}
+
+/* Fraunces is a variable face and the display voice wants some weight behind
+   it, so anything wearing `font-display` sits at 600 by default. Declared in
+   the base layer, so an explicit font-weight utility still wins. */
+@layer base {
+  .font-display {
+    font-weight: 600;
+  }
+}
+
+/* ---- Leaflet ---------------------------------------------------------- */
+/* The real map is the base layer, not the message. It is knocked back so the
+   district fills stay the loudest thing on the surface. */
+
+.leaflet-container {
+  background: var(--surface-2);
+  font: inherit;
+  outline-offset: 2px;
+}
+
+.leaflet-container a {
+  color: var(--accent-ink);
+}
+
+.leaflet-tile-pane {
+  filter: grayscale(0.7) contrast(0.92) brightness(1.04);
+}
+
+.leaflet-control-attribution {
+  background: var(--surface-1) !important;
+  color: var(--text-secondary);
+  font-size: 10px;
+}
+
+/* District polygons. Leaflet writes fill/stroke as SVG presentation
+   attributes, and a CSS rule always beats one — which is how the CMT ramp's
+   light/dark custom properties reach the map at all. */
+.district-shape {
+  cursor: pointer;
+  stroke: var(--surface-1);
+  transition: fill-opacity 150ms ease;
+}
+
+.district-shape-0 { fill: var(--field-0); }
+.district-shape-1 { fill: var(--field-1); }
+.district-shape-2 { fill: var(--field-2); }
+.district-shape-3 { fill: var(--field-3); }
+.district-shape-4 { fill: var(--field-4); }
+
+.district-outline {
+  stroke: var(--text-primary);
+  pointer-events: none;
+}
+
+.agora-dot {
+  fill: var(--surface-1);
+  stroke: var(--text-primary);
+}
+
+/* The permanent district-number labels sitting on each polygon. Doubled up
+   with `.leaflet-tooltip` so these out-rank Leaflet's own tooltip chrome and
+   its directional arrow rules on specificity, not just on source order. */
+.leaflet-tooltip.district-label,
+.leaflet-tooltip.agora-label {
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.leaflet-tooltip.district-label::before,
+.leaflet-tooltip.agora-label::before {
+  display: none;
+}
+
+.district-label-0 { color: var(--field-0-ink); }
+.district-label-1 { color: var(--field-1-ink); }
+.district-label-2 { color: var(--field-2-ink); }
+.district-label-3 { color: var(--field-3-ink); }
+.district-label-4 { color: var(--field-4-ink); }
+
+/* Matches the doubled specificity of the shared label rule above, so the
+   Agora marker keeps its small sans caps instead of the display size. */
+.leaflet-tooltip.agora-label {
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 3px var(--surface-1),
+    0 0 6px var(--surface-1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) grayscale(0.75) brightness(0.92) contrast(0.88);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

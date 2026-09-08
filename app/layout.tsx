@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Instrument_Serif } from "next/font/google";
+import { Fraunces, Geist } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,16 +7,19 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const display = Instrument_Serif({
+// Fraunces, variable across the full 100–900 weight axis. A serif with some
+// mass in it, so the headlines still hold at text-8xl. The default display
+// weight (600) is set on `.font-display` in globals.css.
+const display = Fraunces({
   variable: "--font-display",
-  weight: "400",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "#NoPlaceLeft Athens",
   description:
-    "A church planting strategy for Athens, Greece, built on the No Place Left framework: Four Fields, seven districts surveyed, and the distance to a sustained gospel presence.",
+    "A church planting strategy for Athens, Greece, built on the No Place Left framework: evangelism to multiplication, seven districts surveyed, and the distance to a sustained gospel presence.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
